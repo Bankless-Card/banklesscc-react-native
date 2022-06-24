@@ -4,7 +4,11 @@ React Native &amp; Expo development build for Bankless Card
 MOBILE APP STACK
 expo init my-mobile-app
 
-redux react-redux redux-thunk redux-devtools-extension uuid (bugged with expo?)
+redux
+react-redux
+redux-thunk
+redux-devtools-extension
+uuid (bugged with expo?)
 
 // navigation
 @react-navigation/native
