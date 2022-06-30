@@ -1,8 +1,9 @@
 
 import React, { createContext, useContext, useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Image, FlatList } from 'react-native';
 
-// import {styles} from './homeScreen';
+import TopTab from '../navs/topTabNav';
+import { colors } from '../components/constants';
 
 function HistoryCryptoScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -17,7 +18,8 @@ function HistoryCryptoScreen({ navigation }) {
 
   return (
     <View style={ styles.layout }>
-      <Text style={ styles.title }>This is HistoryCryptoScreen</Text>
+      <TopTab tab1="HistoryCash" label1="Cash" tab2="HistoryCrypto" label2="Crypto" active="tab2" />
+      {/*<Text style={ styles.title }>This is HistoryCryptoScreen</Text>
       <Button
         title="Cash"
         onPress={()=> {
@@ -27,7 +29,37 @@ function HistoryCryptoScreen({ navigation }) {
         title="Crypto (active)"
         onPress={()=> {
           navigation.navigate('HistoryCrypto')
-        }} />
+        }} />*/}
+      {/*<View style={ styles.hr } />*/}
+      <View style={ styles.eachCol }>
+        <FlatList
+            data={[
+              {key: '123', title: 'Bankless CC', timestamp:'28/05/2022 02:00AM', amount:'423.00', img: 'https://tranmer.ca/bcard/img/moneyIn.png', selected: true},
+              {key: '124', title: 'ETH Received', timestamp:'28/05/2022 02:00AM', amount:'1.23', img: 'https://tranmer.ca/bcard/img/ethToken.png'},
+              {key: '125', title: 'Bankless CC', timestamp:'28/05/2022 02:00AM', amount:'-423.00', img: 'https://tranmer.ca/bcard/img/moneyOut.png'},
+              // {key: 'UK', img: 'https://tranmer.ca/bcard/img/usd-badge.png'},
+              // {key: 'ETH', img: 'https://tranmer.ca/bcard/img/ethToken.png'},
+              // {key: 'DAI', img: 'https://tranmer.ca/bcard/img/daiToken.jpeg'},
+            ]}
+            renderItem={({item}) => {
+              // console.log(item);
+              return (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '95%', padding:10, marginHorizontal: 10, backgroundColor: 'white', borderRadius: 8 }}>
+                <Image 
+                    style={{ width: 50, height: 50 }}
+                    source={{ uri: item.img }}
+                  />
+                <View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                  <Text style={{fontWeight:'bold'}}>{item.title}</Text>
+                  <Text>{item.timestamp}</Text>
+                </View>
+                <Text style={{fontWeight:'bold'}}>{item.amount}</Text>
+              </View>
+              )}
+          }
+        />
+      </View>
+
       <View style={ styles.hr } />
       
       <Text>Funding Options (modal)</Text>
@@ -47,7 +79,7 @@ const styles = StyleSheet.create({
   layout: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     fontSize: 32,

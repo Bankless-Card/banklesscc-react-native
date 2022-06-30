@@ -13,13 +13,15 @@ import TransactStack from '../navs/transactStack';
 import HistoryStack from '../navs/historyStack';
 
 // colors
-const BANK_ORCHID = '#6D29FE';
-const BANK_RED = '#D02128';   // primary red
-const BANK_BLACK = '#111111';
-const BANK_ASH = '#4F4F4F';
-const BANK_ASH2 = '#313131';
-const BANK_ASHL = '#A3A3A3';  // ash light
-const BANK_WHITE = '#EEEEEE'; // off white
+import { colors } from '../components/constants';
+
+// const BANK_ORCHID = '#6D29FE';
+// const BANK_RED = '#D02128';   // primary red
+// const BANK_BLACK = '#111111';
+// const BANK_ASH = '#4F4F4F';
+// const BANK_ASH2 = '#313131';
+// const BANK_ASHL = '#A3A3A3';  // ash light
+// const BANK_WHITE = '#EEEEEE'; // off white
 
 
 const Tab = createBottomTabNavigator();
@@ -30,8 +32,13 @@ function MyTabsHome( route,navigation ) {
       initialRouteName="Home"
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: BANK_RED,
-        tabBarInactiveTintColor: BANK_ASH,
+        // tabBarActiveBackgroundColor: 'black',
+        tabBarStyle: { position: 'absolute' },
+        tabBarBackground: () => (
+          <View style={{ backgroundColor: 'blue' }} />
+        ),
+        tabBarActiveTintColor: colors.BANK_RED,
+        tabBarInactiveTintColor: colors.BANK_ASH,
         tabBarIcon: ({ focused, color, size }) => {
           let iconSrc;
 
@@ -47,7 +54,7 @@ function MyTabsHome( route,navigation ) {
             iconSrc = 'ri-bank-card-line';
           }
 
-          color = focused ? BANK_RED : BANK_ASH;
+          color = focused ? colors.BANK_RED : colors.BANK_ASH;
 
           // You can return any component that you like here!
           return <Icon name={ iconSrc } color={ color } />;

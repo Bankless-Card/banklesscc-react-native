@@ -20,6 +20,7 @@ function TransactStack() {
     <Stack.Navigator 
       initialRouteName="HistoryCrypto"
       screenOptions={{
+        headerShown: false,
         headerStyle: {
           backgroundColor: '#A3A3A3',
         },

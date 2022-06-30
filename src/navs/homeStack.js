@@ -15,14 +15,16 @@ import RewardsScreen from '../pages/rewardsScreen';
 
 // import DrawerScreen from '../pages/drawerScreen';
 
+import { colors } from '../components/constants';
+
 // colors
-const BANK_ORCHID = '#6D29FE';
-const BANK_RED = '#D02128';   // primary red
-const BANK_BLACK = '#111111';
-const BANK_ASH = '#4F4F4F';
-const BANK_ASH2 = '#313131';
-const BANK_ASHL = '#A3A3A3';  // ash light
-const BANK_WHITE = '#EEEEEE'; // off white
+// const BANK_ORCHID = '#6D29FE';
+// const BANK_RED = '#D02128';   // primary red
+// const BANK_BLACK = '#111111';
+// const BANK_ASH = '#4F4F4F';
+// const BANK_ASH2 = '#313131';
+// const BANK_ASHL = '#A3A3A3';  // ash light
+// const BANK_WHITE = '#EEEEEE'; // off white
 
 // components for homeStack
 import LogoTitle from '../components/logoTitle';
@@ -34,21 +36,13 @@ function HomeStack() {
     <StackHome.Navigator 
       initialRouteName="HomePage"
       screenOptions={{
-        headerShown: false,
+          headerShown: false,
       }}  >
       <StackHome.Screen 
         name="HomePage" 
         component={HomeScreen} 
         options={{ 
           headerShown: false,
-          title: 'BanklessCard',
-          headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
-            />
-          ),
         }} 
       />
       <StackHome.Screen 
@@ -58,9 +52,9 @@ function HomeStack() {
           headerShown: 'true',
           title: 'My Card',
           headerStyle: {
-            backgroundColor: BANK_RED,
+            backgroundColor: colors.BANK_RED,
           },
-          headerTintColor: BANK_WHITE,
+          headerTintColor: colors.BANK_WHITE,
           headerTitleStyle: {
             fontWeight: 'bold',
           },
@@ -86,9 +80,9 @@ function HomeStack() {
             headerShown: true,
             title: 'Rewards',
             headerStyle: {
-              backgroundColor: BANK_ORCHID,
+              backgroundColor: colors.BANK_ORCHID,
             },
-            headerTintColor: BANK_WHITE,
+            headerTintColor: colors.BANK_WHITE,
             headerTitleStyle: {
               fontWeight: 'bold',
             },
@@ -99,7 +93,6 @@ function HomeStack() {
       <StackHome.Screen name="News" component={NewsScreen}
         options={{ headerTitle: (props) => <LogoTitle {...props}/> }} />
       <StackHome.Screen name="Profile" component={ProfileScreen} />
-      {/*<StackHome.Screen name="DrawerTest" component={DrawerScreen} />*/}
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
     </StackHome.Navigator>
   )

@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 import { View, Text, StyleSheet, Button, Pressable, TextInput, Image, Scrollview } from 'react-native';
 
-// fonts from google/local
+//navigation
+import { useNavigation } from '@react-navigation/native';
+
+// TBD fonts from google/local
 import {
   useFonts,
   SpaceGrotesk_400Regular,
@@ -12,36 +15,65 @@ import {
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createDrawerNavigator, DrawerActions } from '@react-navigation/drawer';   // for menu drawer TBD
 
+import NotificationButton from '../components/notificationButton';
 import NewsPost from '../components/newsPost';
+
+// login
+import AuthContext from '../components/AuthContext';
+
+import { auth } from '../../firebase';
+
 
 import Icon from 'react-native-remix-icon';   
 
+import { colors } from '../components/constants';
+
 // colors
-const BANK_ORCHID = '#6D29FE';
-const BANK_RED = '#D02128';   // primary red
-const BANK_BLACK = '#111111';
-const BANK_ASH = '#4F4F4F';
-const BANK_ASH2 = '#313131';
-const BANK_ASHL = '#A3A3A3';  // ash light
-const BANK_WHITE = '#EEEEEE'; // off white
-
-// import { BANK_ORCHID, BANK_RED, BANK_BLACK, BANK_ASH, BANK_ASH2, BANK_ASHL, BANK_WHITE } from '../components/constants';
-
-// console.log(BANK_ASHL);
-
-
-
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
+// const BANK_ORCHID = '#6D29FE';
+// const BANK_RED = '#D02128';   // primary red
+// const BANK_BLACK = '#111111';
+// const BANK_ASH = '#4F4F4F';
+// const BANK_ASH2 = '#313131';
+// const BANK_ASHL = '#A3A3A3';  // ash light
+// const BANK_WHITE = '#EEEEEE'; // off white
 
 // let [fontsLoaded] = useFonts({
 //     'Space-Grotesk': require('../assets/fonts/SpaceGrotesk-Regular.ttf'),
 //   });
+
+// function BoilingVerdict(props) {
+//   if (props.celsius >= 100) {
+//     return <Text>The water would boil.</Text>;
+//   }
+//   return <Text>The water would not boil.</Text>;
+// }
+
+
+// const DisplayDate = (props) => {
+
+//   // const [temperature, setTemp] = useState('');
+
+//   // console.log(temperature);
+//   const [privacyMode, setPrivacyMode] = React.useState(0);
+//   let thisUser = auth.currentUser;
+
+//   //const [username, setUsername] = useState('');
+//   // console.log(username);
+
+//   return (<View>
+    
+//     <Text> It is { props.date.toLocaleTimeString() } </Text>
+//     {/*<View>
+//       <Text>Enter temperature in Celsius:</Text>
+//       <TextInput
+//         onChangeText={newText => setTemp(newText)}
+//         defaultValue={temperature} />
+//       <BoilingVerdict
+//         celsius={parseFloat(temperature)} />
+//     </View>*/}
+//   </View>);
+
+// }
 
 
 // home screen visual content
@@ -55,6 +87,14 @@ const HomeScreen = ({ route, navigation }) => {
     }
   }, [route.params?.post]);
 
+  const [privacyMode, setPrivacyMode] = React.useState(0);
+  let thisUser = auth.currentUser;
+
+  // console.log(privacyMode);
+  const date = new Date();
+
+  // privacyMode = false;    //default setting
+
   return (
 
     <View style={ styles.layout }>
@@ -63,9 +103,11 @@ const HomeScreen = ({ route, navigation }) => {
 
       {/*<Text style={ styles.title }>Home Screen</Text>*/}
 
-      <View style={{ flex:1 }}>
+      <View style={{ }}>
 
-        <View style={ styles.notificationRow }>
+        <NotificationButton />
+
+        {/*<View style={ styles.notificationRow }>
           <Pressable 
             style={ styles.notification }
             title="Notifications"
@@ -76,20 +118,31 @@ const HomeScreen = ({ route, navigation }) => {
             }} >
             <Icon name="ri-notification-line" size="30" />
           </Pressable>
-        </View>
+        </View>*/}
 
         <View style={ styles.balanceSwitch }>
           <Pressable 
             style={ styles.balanceButton }
             title="Balance"
             onPress={()=>{
-              console.log("Toggle Balance View");
+              //console.log("Toggle Balance View");
+              setPrivacyMode(!privacyMode);
+              //console.log(privacyMode.toString());
             }} >
             <Text style={ styles.balanceText }>Balance</Text>
           </Pressable>
-          <Icon name="ri-eye-line" size="20" />
-          <Icon name="ri-eye-close-line" size="20" />
+          {(() => {
+              if (privacyMode) {
+                return <Icon name="ri-eye-close-line" size="20" />;
+              } else {
+                return <Icon name="ri-eye-line" size="20" />;
+              }
+            })()}
+          
+          
         </View>
+
+        
 
       </View>
 
@@ -105,13 +158,27 @@ const HomeScreen = ({ route, navigation }) => {
         console.log("Hello");
       }} />*/}
 
-      <View style={{ flex: 1 }}>
+      <View style={{}}>
 
         <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
-          <Text style={ styles.h2 }>$4120.23</Text>
+        {(() => {
+            if (privacyMode) {
+              return <Text style={ styles.h2 }>$****.**</Text>;
+            } else {
+              return <Text style={ styles.h2 }>$4120.23</Text>;
+            }
+          })()}
+          
           <View style={{ flexDirection: 'column' }}>
-            <Text style={{ color: BANK_ASHL }}>Asset Value ($)</Text>
-            <Text style={ styles.h3 }>$2500.42</Text>
+            <Text style={{ color: colors.BANK_ASHL }}>Asset Value ($)</Text>
+            {(() => {
+              if (privacyMode) {
+                return <Text style={ styles.h3 }>$****.**</Text>;
+              } else {
+                return <Text style={ styles.h3 }>$2500.42</Text>;
+              }
+            })()}
+            
           </View>
         </View>
 
@@ -151,7 +218,7 @@ const HomeScreen = ({ route, navigation }) => {
                 otherParam: 'anything you want here',
               });
            }} >
-            <Text style={{ color: BANK_RED }}>See all</Text>
+            <Text style={{ color: colors.BANK_RED }}>See all</Text>
           </Pressable>
         </View>
         
@@ -174,25 +241,16 @@ const HomeScreen = ({ route, navigation }) => {
 
       </View>
 
-      {/*<View style={ styles.hr } />*/}
-
-      {/*
-      <Button
-        title="CreatePost"
-        onPress={() => {
-          navigation.navigate('CreatePost')
-        }}
-      />
-      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
-
-      <Button 
-        title="User Profile"
-        onPress={()=>{
-          navigation.navigate('Profile', {
-            name: "Profile from HOME"
-          });
-        }} />
-      */}
+      <View>
+        {(() => {
+          if (privacyMode) {
+            return <Text> Welcome back ***********.***, </Text>;
+          } else {
+            return <Text> Welcome back { thisUser?.email }, </Text>;
+          }
+        })()}
+          <Text> It is { date.toLocaleTimeString() } </Text>
+      </View>
       
     </View>
   );
@@ -218,7 +276,7 @@ const styles = StyleSheet.create({
   },
   hr: {
     width: "100%",
-    borderBottomColor: BANK_ASH,
+    borderBottomColor: colors.BANK_ASH,
     borderBottomWidth: 1,
   },
   balanceSwitch: {
@@ -255,7 +313,6 @@ const styles = StyleSheet.create({
     color: '#A3A3A3',
   },
   newsBlock: {
-    flex: 3,
     backgroundColor: 'white',
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -267,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 10,
     paddingBottom: 5,
-    borderBottomColor: BANK_ASH,
+    borderBottomColor: colors.BANK_ASH,
     borderBottomWidth: 1,
   },
   h1: {

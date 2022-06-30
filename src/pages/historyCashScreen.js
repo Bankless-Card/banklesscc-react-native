@@ -2,7 +2,9 @@
 import React, { createContext, useContext, useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 
-// import {styles} from './homeScreen';
+import TopTab from '../navs/topTabNav';
+
+import { colors } from '../components/constants';
 
 function HistoryCashScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -17,6 +19,7 @@ function HistoryCashScreen({ navigation }) {
 
   return (
     <View style={ styles.layout }>
+      <TopTab tab1="HistoryCash" label1="Cash" tab2="HistoryCrypto" label2="Crypto" active="tab1" />
       <Text style={ styles.title }>This is HistoryCashScreen</Text>
       <Button
         title="Cash (active)"
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
   layout: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     fontSize: 32,

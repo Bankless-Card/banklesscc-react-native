@@ -1,8 +1,10 @@
 
 import React, { createContext, useContext, useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity } from 'react-native';
 
-// import {styles} from './homeScreen';
+import TopTab from '../navs/topTabNav';
+
+import { colors } from '../components/constants';
 
 function CryptoTrxScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -17,25 +19,36 @@ function CryptoTrxScreen({ navigation }) {
 
   return (
     <View style={ styles.layout }>
-      <Text style={ styles.title }>This is CryptoTrxScreen</Text>
-      <Button
-        title="Cash"
-        onPress={()=> {
-          navigation.navigate('CashTrx')
-        }} />
-      <Button
-        title="Crypto (active)"
-        onPress={()=> {
-          navigation.navigate('Crypto')
-        }} />
-      <View style={ styles.hr } />
+      <View style={styles.topView}>
+        <TopTab tab1="CashTrx" label1="Cash" tab2="Crypto" label2="Crypto" active="tab2" />
+        
+        <View style={styles.fundingContainer}>
+          <TouchableOpacity
+            style={styles.fundingButton}
+            onPress={() => {
+              navigation.navigate('Funding')
+            }}
+          >
+            <Text style={styles.fundingBtnText}>Choose a Funding Option (+) (modal)</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.fundingContainer}>
+          <TouchableOpacity
+              style={styles.darkAlert}
+          >
+            <Text style={styles.darkAlertText}>Dark Alert (sample)</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+
+      <View style={[styles.topView, styles.bottomView]}>
       
-      <Text>Funding Options (modal)</Text>
-      <Text>Dark Alert (sample)</Text>
-      
-      <View style={ styles.hr } />
-      <Text>Count: {count}</Text>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+        <View style={ styles.hr } />
+        <Text>Count: {count}</Text>
+        <Button title="Go back" onPress={() => navigation.goBack()} />
+      </View>
     </View>
   );
 
@@ -44,10 +57,10 @@ function CryptoTrxScreen({ navigation }) {
 export default CryptoTrxScreen;
 
 const styles = StyleSheet.create({
-  layout: {
+   layout: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     fontSize: 32,
@@ -57,6 +70,42 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomColor: 'black',
     borderBottomWidth: 1,
+  },
+  topView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  bottomView: {
+    alignItems: 'center',
+  },
+  fundingContainer: {
+    alignItems: 'flex-start',
+    width: '90%',
+    marginTop: 10,
+  },
+  fundingButton: {
+    padding: 15,
+    backgroundColor: '#f8d7da',
+    borderColor: colors.BANK_RED,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: '100%',
+  },
+  fundingBtnText: {
+    color: colors.BANK_RED,
+  },
+  darkAlert: {
+    padding: 15,
+    backgroundColor: colors.BANK_ASHL,
+    borderColor: colors.BANK_ASH,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: '100%',
+  },
+  darkAlertText: {
+    color: colors.BANK_ASH2
   },
   h1: {
     fontSize: 24

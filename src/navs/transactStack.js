@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // pages for TransactStack
 import CashTrxScreen from '../pages/cashTrxScreen';
 import CryptoTrxScreen from '../pages/cryptoTrxScreen';
-// import ChartScreen from '../pages/chartScreen';
+import FundingScreen from '../pages/fundingScreen';
 
 // components for TransactStack (shared)
 import LogoTitle from '../components/logoTitle';
@@ -31,19 +31,21 @@ function TransactStack() {
         name="CashTrx" 
         component={CashTrxScreen} 
         options={{ 
-          title: 'Cash',
-          headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
-            />
-          ),
+          headerShown: false,
         }} 
       />
       <Stack.Screen name="Crypto" component={CryptoTrxScreen} 
-        options={{ headerTitle: (props) => <LogoTitle {...props}/> }} />
-      {/*<Stack.Screen name="Charts" component={ChartScreen} />*/}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Group
+        screenOptions={({ navigation }) => ({
+          presentation: 'modal',
+        })}
+      >
+        <Stack.Screen name="Funding" component={FundingScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   )
 }

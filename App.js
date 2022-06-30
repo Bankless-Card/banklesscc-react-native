@@ -1,14 +1,11 @@
 import 'react-native-gesture-handler';    // first on purpose for drawer and touch jestures
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';    // is stack needed here?
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';       // for main nav
-// import { createDrawerNavigator } from '@react-navigation/drawer';               // for menu drawer
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';       // for main nav
 
 // using remix icons
-// import { RiHomeLine } from "react-icons/ri";
 import Icon from 'react-native-remix-icon';
 
 //navs (maybe obsoleted on this page)
@@ -17,21 +14,22 @@ import Icon from 'react-native-remix-icon';
 // import TransactStack from './src/navs/transactStack';
 //import HistoryStack from './src/navs/historyStack';
 
+//login
+import { auth } from './firebase';
+
+import NewLoginScreen from './src/pages/newLoginScreen';
+import Forgot from './src/components/forgotButton';
+
+import Logout from './src/pages/logoutScreen';
+
 // real final entry for app
 import DrawerNav from './src/navs/drawerNav';
 // testing tab Component integration
-// import MyNavTabs from './src/navs/myNavTabs';
+import MyNavTabs from './src/navs/myNavTabs';
+import LogoTitle from './src/components/logoTitle';
 
-//drawer pages 
-// import HomeScreen from './src/pages/homeScreen';
-// import NotificationsScreen from './src/pages/notifications';
+// import AuthContext from './src/components/AuthContext';
 
-
-// user auth
-export const AuthContext = createContext({
-  hasUser: false,
-  setUser: () => {},
-});
 
 // colors
 const BANK_ORCHID = '#6D29FE';
@@ -42,79 +40,106 @@ const BANK_ASH2 = '#313131';
 const BANK_ASHL = '#A3A3A3';  // ash light
 const BANK_WHITE = '#EEEEEE'; // off white
 
-// import { BANK_ORCHID, BANK_RED, BANK_BLACK, BANK_ASH, BANK_ASH2, BANK_ASHL, BANK_WHITE } from './src/components/constants';
+// nav required
+const Drawer = createDrawerNavigator();
 
-// Navigators (now are imported)
-// const Tab = createBottomTabNavigator();
+function NewDrawer() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator 
+        useLegacyImplementation
+        initialRouteName="Login"
+        screenOptions={({route}) => ({
+          // headerShown: false
+          activeTintColor: '#e91e63',
+          itemStyle: { marginVertical: 5 },
 
-// function MyTabsHome( route,navigation ) {
-//   return (
-//     <Tab.Navigator
-//       initialRouteName="Home"
-//       screenOptions={({ route }) => ({
-//         headerShown: false,
-//         tabBarActiveTintColor: BANK_RED,
-//         tabBarInactiveTintColor: BANK_ASH,
-//         tabBarIcon: ({ focused, color, size }) => {
-//           let iconSrc;
+        })} 
+        // drawerContent={props => <CustomDrawer {...props} />}
+      >
 
-//           if (route.name === 'Home') {
-//             iconSrc = 'ri-home-line';
-//           } else if (route.name === 'Wallet') {
-//             iconSrc = 'ri-wallet-line';
-//             // color = focused ? BANK_RED : BANK_ASH
-//           } else if (route.name === 'Transact') {
-//             iconSrc = 'ri-exchange-dollar-line';
-//             // color = focused ? BANK_RED : BANK_ASH
-//           } else if (route.name === 'History') {
-//             iconSrc = 'ri-bank-card-line';
-//           }
+        <>
+          <Drawer.Screen name="Login" component={NewLoginScreen} />
+          <Drawer.Screen 
+            name="Forgot" 
+            component={Forgot}
+            options={({ navigation }) => ({
+              presentation: 'modal',
+              headerShown: 'true',
+              headerStyle: {
+                backgroundColor: BANK_RED,
+              },
+              headerTintColor: BANK_WHITE,
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+              headerLeft: () => 
+                (<Button title='Close' onPress={navigation.goBack} />)
+            })
+          }
+        />
 
-//           color = focused ? BANK_RED : BANK_ASH;
+        <Drawer.Screen name="BanklessCC" component={MyNavTabs}
+            options={{
+              headerRight: () => (<View style={{ marginRight: 10 }}><LogoTitle /></View>),
+            }} />
+          
 
-//           // You can return any component that you like here!
-//           return <Icon name={ iconSrc } color={ color } />;
-//         },
+        <Drawer.Screen name="Logout" component={Logout} />
+        </>
 
-        
-//       })}
-//     >
-//       <Tab.Screen 
-//         name="Home" 
-//         component={HomeStack} 
-//         options={{
+      </Drawer.Navigator>
+    </NavigationContainer>
+    
+  );
+};
 
-//         }} 
-//         />
-//       <Tab.Screen name="Wallet" component={WalletStack} options={{
-//               // tabBarIcon: () => (<Icon name="ri-wallet-line" size="25" />),
-//         }} />
-//       <Tab.Screen name="Transact" component={TransactStack} 
-//         options={{ 
-//           tabBarBadge: 3,
-//           // tabBarIcon: () => (<Icon name="ri-exchange-dollar-line" size="25" />),
-//         }} />
-//       <Tab.Screen name="History" component={HistoryStack} options={{
-//         // tabBarIcon: () => (<Icon name="ri-bank-card-line" size="25" />),
-//       }} />
-//     </Tab.Navigator>
-//   );
-// }
+//drawer pages 
+// import HomeScreen from './src/pages/homeScreen';
+// import NotificationsScreen from './src/pages/notifications';
 
-/*
 
-<DrawerNav />
-<NavigationContainer>
-        <MyTabsHome />
-      </NavigationContainer>
-      
-*/
+// user auth
+// export const AuthContext = createContext({
+//   hasUser: false,
+//   setUser: () => {},
+// });
 
 function App() {
+
+  console.log(auth.currentUser);
+  let thisUser = auth.currentUser;
+  let isLoggedIn = false;
+
+  // const navigation = useNavigation(); 
+
   return (
-      <DrawerNav />
+  
+      <NavigationContainer>
+        <DrawerNav />
+      </NavigationContainer>
+
   );
 }
+
+
+  // const navigation = useNavigation(); 
+
+  // return (
+
+  //   { if(thisUser.length > 0 ) ? (console.log("Yes")) : (console.log("No")) }
+
+  //   // <DrawerNav />
+  //   <NewDrawer />
+
+  //   // thisUser !== null ? ( 
+  //   //   <DrawerNav />
+  //   //   ):(
+  //   //   <NewDrawer />
+  //   //   )
+
+  // );
+
 
 export default App;
 
