@@ -9,6 +9,7 @@ import WalletScreen from '../pages/walletScreen';
 import VaultScreen from '../pages/vaultScreen';
 import ChartScreen from '../pages/chartScreen';
 import CurrencyDAOScreen from '../pages/currencyDAOScreen';
+import TokenScreen from '../pages/tokenScreen';
 
 // components for walletStack (shared)
 import LogoTitle from '../components/logoTitle';
@@ -31,6 +32,8 @@ function WalletStack() {
         options={{ headerShown: false }} />
       <StackHome.Screen name="DAOcurrency" component={CurrencyDAOScreen} />
       <StackHome.Screen name="Charts" component={ChartScreen} />
+      <StackHome.Screen name="Token" component={TokenScreen}
+        options={{ headerTitle: (props) => <LogoTitle {...props}/> }} />
     </StackHome.Navigator>
   )
 }

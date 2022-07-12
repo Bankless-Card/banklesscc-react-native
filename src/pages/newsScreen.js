@@ -4,18 +4,21 @@ import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 function NewsScreen({ route, navigation }) {
   // const setUser = useContext(AuthContext);
   /* 2. Get the param */
-  const { itemId, otherParam } = route.params;
+  const { itemId, otherParam, moreParam, really } = route.params;
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{ fontSize: 20 }}>News Screen</Text>
       <Text>itemId: {JSON.stringify(itemId)}</Text>
-      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+      <Text>title: {JSON.stringify(otherParam)}</Text>
+      <Text>moreParam: {JSON.stringify(moreParam)}</Text>
+      <Text>really: {JSON.stringify(really)}</Text>
       <Button
         title="Next News Story..."
         onPress={() =>
           navigation.push('News', {
             itemId: Math.floor(Math.random() * 100),
+            title: 'Other Title Param',
           })
         }
       />

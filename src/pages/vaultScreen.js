@@ -21,7 +21,7 @@ function VaultScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-      <View style={{width: '100%', alignItems: 'flex-end'}}>
+      <View style={{width: '100%', alignItems: 'flex-end', marginBottom: -50}}>
         <IconButton name="ri-line-chart-fill" size="20" navTarget="Charts" />
       </View>
 

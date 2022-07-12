@@ -19,24 +19,18 @@ function HistoryCryptoScreen({ navigation }) {
   return (
     <View style={ styles.layout }>
       <TopTab tab1="HistoryCash" label1="Cash" tab2="HistoryCrypto" label2="Crypto" active="tab2" />
-      {/*<Text style={ styles.title }>This is HistoryCryptoScreen</Text>
-      <Button
-        title="Cash"
-        onPress={()=> {
-          navigation.navigate('HistoryCash')
-        }} />
-      <Button
-        title="Crypto (active)"
-        onPress={()=> {
-          navigation.navigate('HistoryCrypto')
-        }} />*/}
-      {/*<View style={ styles.hr } />*/}
+
       <View style={ styles.eachCol }>
         <FlatList
+          style={{ maxHeight:550 }}
             data={[
-              {key: '123', title: 'Bankless CC', timestamp:'28/05/2022 02:00AM', amount:'423.00', img: 'https://tranmer.ca/bcard/img/moneyIn.png', selected: true},
+              {key: '123', title: 'USDC Received', timestamp:'28/05/2022 02:00AM', amount:'423.00', img: 'https://tranmer.ca/bcard/img/usdcToken.jpeg'},
               {key: '124', title: 'ETH Received', timestamp:'28/05/2022 02:00AM', amount:'1.23', img: 'https://tranmer.ca/bcard/img/ethToken.png'},
-              {key: '125', title: 'Bankless CC', timestamp:'28/05/2022 02:00AM', amount:'-423.00', img: 'https://tranmer.ca/bcard/img/moneyOut.png'},
+              {key: '125', title: 'USDC Payament', timestamp:'28/05/2022 02:00AM', amount:'-423.00', img: 'https://tranmer.ca/bcard/img/usdcToken.jpeg'},
+              {key: '126', title: 'ETH Sent', timestamp:'28/05/2022 02:00AM', amount:'0.23', img: 'https://tranmer.ca/bcard/img/ethToken.png'},
+              {key: '127', title: 'DAO Received', timestamp:'28/05/2022 02:00AM', amount:'1000', img: 'https://tranmer.ca/bcard/img/daoToken.png'},
+              {key: '128', title: 'DAO Tips', timestamp:'28/05/2022 02:00AM', amount:'-100', img: 'https://tranmer.ca/bcard/img/daoToken.png'},
+              {key: '129', title: 'DAI Recieved', timestamp:'28/05/2022 02:00AM', amount:'550', img: 'https://tranmer.ca/bcard/img/daiToken.jpeg'},
               // {key: 'UK', img: 'https://tranmer.ca/bcard/img/usd-badge.png'},
               // {key: 'ETH', img: 'https://tranmer.ca/bcard/img/ethToken.png'},
               // {key: 'DAI', img: 'https://tranmer.ca/bcard/img/daiToken.jpeg'},
@@ -46,24 +40,19 @@ function HistoryCryptoScreen({ navigation }) {
               return (
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '95%', padding:10, marginHorizontal: 10, backgroundColor: 'white', borderRadius: 8 }}>
                 <Image 
-                    style={{ width: 50, height: 50 }}
+                    style={{ width: 50, height: 50, borderRadius:25 }}
                     source={{ uri: item.img }}
                   />
                 <View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                  <Text style={{fontWeight:'bold'}}>{item.title}</Text>
-                  <Text>{item.timestamp}</Text>
+                  <Text style={{fontFamily: 'SpaceGroteskBold'}}>{item.title}</Text>
+                  <Text style={{fontFamily: 'SpaceGroteskRegular'}}>{item.timestamp}</Text>
                 </View>
-                <Text style={{fontWeight:'bold'}}>{item.amount}</Text>
+                <Text style={{fontFamily: 'SpaceGroteskBold'}}>{item.amount}</Text>
               </View>
               )}
           }
         />
       </View>
-
-      <View style={ styles.hr } />
-      
-      <Text>Funding Options (modal)</Text>
-      <Text>Dark Alert (sample)</Text>
       
       <View style={ styles.hr } />
       <Text>Count: {count}</Text>

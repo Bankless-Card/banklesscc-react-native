@@ -51,7 +51,7 @@ function CashTrxScreen({ navigation }) {
           <TouchableOpacity
               style={styles.darkAlert}
           >
-            <Text style={styles.darkAlertText}>Dark Alert (sample)</Text>
+            <Text style={styles.darkAlertText}>This is a dark alert - check it out!</Text>
           </TouchableOpacity>
         </View>
 
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   },
   fundingBtnText: {
     color: colors.BANK_RED,
+    fontFamily: 'SpaceGroteskBold'
   },
   darkAlert: {
     padding: 15,
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   darkAlertText: {
-    color: colors.BANK_ASH2
+    color: colors.BANK_BLACK,
+    fontFamily: 'SpaceGroteskRegular'
   },
   h1: {
     fontSize: 24

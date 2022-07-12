@@ -3,20 +3,30 @@ import { View, Text, StyleSheet, Button, Pressable, TextInput, Image } from 'rea
 
 const BANK_ASH = '#4F4F4F';
 
-function NewsPost({}) {
+function NewsPost(props) {
 
-  let image = 'newsSample1';
+  console.log(props);
+  var storyIcon = require('../assets/img/newsSample1.png');
+  if(props.image === "newsSample2") {
+    // change filename for icon
+    storyIcon = require('../assets/img/newsSample2.png');
+  } else if(props.image === "newsSample3"){
+    storyIcon = require('../assets/img/newsSample3.png');
+  }
 
   return (
     <View style={ styles.newsPost }>
-      <View style={{ width: '65%', marginRight: 20 }}>
-        <Text style={{ fontWeight:'bold' }}>New payment project BanklessCC set to take the payments world by storm</Text>
-        <Text style={{ marginVertical: 5 }}>
-          <Text style={ styles.category }>Projects</Text>    <Text style={ styles.postTime }>4 hours ago</Text>
+      <View style={ styles.newsText }>
+        <Text style={ styles.titleFont }>
+          { props.title }
+        </Text>
+        <Text style={styles.secondRow}>
+          <Text style={ styles.category }>{props.category}</Text>    <Text style={ styles.postTime }>{props.postTime}</Text>
         </Text>
       </View>
-      <Image style={{ alignSelf:'flex-start', width: '25%', borderRadius: 4 }}
-        source={require('../assets/img/'+image+'.png')} size='30' />
+      <Image 
+        source={storyIcon}
+      />
     </View>
   );
 }
@@ -26,9 +36,11 @@ export default NewsPost;
 const styles = StyleSheet.create({
   category: {
     color: '#D02128',
+    fontFamily: 'SpaceGroteskBold'
   },
   postTime: {
-    color: '#D02128'
+    color: '#D02128',
+    fontFamily: 'SpaceGroteskRegular'
   },
   newsPost: {
     flexDirection: 'row',
@@ -39,5 +51,16 @@ const styles = StyleSheet.create({
     borderBottomColor: BANK_ASH,
     borderBottomWidth: 1,
   },
+  newsText:  { 
+    width: '65%', 
+    marginRight: 20, 
+  },
+  titleFont: {
+    fontWeight:'bold',
+    fontFamily: 'SpaceGroteskBold',
+  },
+  secondRow: { 
+    marginVertical: 5 
+  }
 });
 

@@ -8,6 +8,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';       // for m
 // using remix icons
 import Icon from 'react-native-remix-icon';
 
+// using custom fonts
+import * as Font from 'expo-font';
+
 //navs (maybe obsoleted on this page)
 // import HomeStack from './src/navs/homeStack';
 // import WalletStack from './src/navs/walletStack';
@@ -39,6 +42,7 @@ const BANK_ASH = '#4F4F4F';
 const BANK_ASH2 = '#313131';
 const BANK_ASHL = '#A3A3A3';  // ash light
 const BANK_WHITE = '#EEEEEE'; // off white
+
 
 // nav required
 const Drawer = createDrawerNavigator();
@@ -106,6 +110,15 @@ function NewDrawer() {
 // });
 
 function App() {
+
+  const [fontsLoaded, setFontsLoaded] = React.useState(0);
+
+  // load custom fonts
+  Font.loadAsync({
+    SpaceGroteskBold: require('./src/assets/fonts/SpaceGrotesk-Bold.ttf'),
+    SpaceGroteskLight: require('./src/assets/fonts/SpaceGrotesk-Light.ttf'),
+    SpaceGroteskRegular: require('./src/assets/fonts/SpaceGrotesk-Regular.ttf'),
+  });
 
   console.log(auth.currentUser);
   let thisUser = auth.currentUser;

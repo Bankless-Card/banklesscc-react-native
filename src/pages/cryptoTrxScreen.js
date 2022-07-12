@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   },
   fundingBtnText: {
     color: colors.BANK_RED,
+    fontFamily: 'SpaceGroteskBold',
   },
   darkAlert: {
     padding: 15,
@@ -105,7 +106,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   darkAlertText: {
-    color: colors.BANK_ASH2
+    color: colors.BANK_ASH2,
+    fontFamily: 'SpaceGroteskRegular'
   },
   h1: {
     fontSize: 24

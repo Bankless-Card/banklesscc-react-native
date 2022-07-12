@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 
 //navigation
 import { useNavigation } from '@react-navigation/native';
@@ -11,72 +11,73 @@ import Icon from 'react-native-remix-icon';
 import {colors} from '../components/constants';
 import IconButton from '../components/iconButton';
 
-function TokenView(props) {
+// function TokenView(props) {
 
-  const [privacyMode, setPrivacyMode] = React.useState(0);
-  // console.log(privacyMode);
+//   const [privacyMode, setPrivacyMode] = React.useState(0);
+//   // console.log(privacyMode);
 
-  // console.log(props.image);
-  let thisImage = props.image;
-  let img = 'https://tranmer.ca/bcard/img/'+props.image;
-  // console.log(img);
+//   // console.log(props.image);
+//   let thisImage = props.image;
+//   let img = 'https://tranmer.ca/bcard/img/'+props.image;
+//   // console.log(img);
 
-  let ethConvert = 1190;
-  let bscConvert = 235.82;
-  let bankConvert = 0.016;
+//   let ethConvert = 1190;
+//   let bscConvert = 235.82;
+//   let bankConvert = 0.016;
 
-  let thisConvert = bankConvert;
+//   let thisConvert = bankConvert;
 
-  if(props.symbol === "ETH") {
-    thisConvert = ethConvert;
-  } else if(props.symbol === "BSC") {
-    thisConvert = bscConvert;
-  } else {
-    thisConvert = bankConvert;
-  }
+//   if(props.symbol === "ETH") {
+//     thisConvert = ethConvert;
+//   } else if(props.symbol === "BSC") {
+//     thisConvert = bscConvert;
+//   } else {
+//     thisConvert = bankConvert;
+//   }
 
-  let convert = props.tokenBalance * thisConvert;
-  // console.log(convert);
+//   let convert = props.tokenBalance * thisConvert;
+//   // console.log(convert);
 
-  // convert = convert.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  convert = niceFormat(convert);
-  // console.log(props.tokenBalance);
-  let tokenOutput = props.tokenBalance;
-  tokenOutput = tokenOutput.replace(/\d(?=(\d{3})+\.)/g, '$&,');
+//   // convert = convert.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+//   convert = niceFormat(convert);
+//   // console.log(props.tokenBalance);
+//   let tokenOutput = props.tokenBalance;
+//   tokenOutput = tokenOutput.replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-  // fix with require vairable for props.image of same name
+//   // fix with require vairable for props.image of same name
 
-  return (
-    <View style={ styles.tokenContainer }>
-      <View style={{ flexDirection: 'row' }}>
-        <Image 
-          style={{ width: 40, height: 40, marginRight: 10 }}
-          // source={{ img }}
-          // source={require('../assets/img/bLogo.png')}
-          source={{
-            uri: img,
-          }}
-        />
-        <View style={{ justifyContent:'space-evenly' }}>
-          <Text style={ styles.mainToken }>{props.name ? props.name : "Missing Name"}</Text>
-          <Text style={ styles.subToken }>{props.symbol ? props.symbol : "Missing Symbol"}</Text>
-        </View>
-      </View>
+//   return (
+//     <View style={ styles.tokenContainer }>
+//       <View style={{ flexDirection: 'row' }}>
+//         <Image 
+//           style={{ width: 40, height: 40, marginRight: 10 }}
+//           // source={{ img }}
+//           // source={require('../assets/img/bLogo.png')}
+//           source={{
+//             uri: img,
+//           }}
+//         />
+//         <View style={{ justifyContent:'space-evenly' }}>
+//           <Text style={ styles.mainToken }>{props.name ? props.name : "Missing Name"}</Text>
+//           <Text style={ styles.subToken }>{props.symbol ? props.symbol : "Missing Symbol"}</Text>
+//         </View>
+//       </View>
 
-      <View style={{ justifyContent:'space-evenly' }}>
-        <Text style={ styles.mainTokenBal }>{props.tokenBalance ? tokenOutput : "Cannot get balance"}</Text>
-        <Text style={ styles.subTokenBal }>${ convert }</Text>
-      </View>
-    </View>
+//       <View style={{ justifyContent:'space-evenly' }}>
+//         <Text style={ styles.mainTokenBal }>{props.tokenBalance ? tokenOutput : "Cannot get balance"}</Text>
+//         <Text style={ styles.subTokenBal }>${ convert }</Text>
+//       </View>
+//     </View>
 
-  );
-}
+//   );
+// }
 
 import TopTab from '../navs/topTabNav';
+import TokenView from '../components/tokenView';
 
-function niceFormat(num) {
-  return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-}
+// function niceFormat(num) {
+//   return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+// }
 
 // function ChartButton() {
 //   return (
@@ -119,7 +120,7 @@ function WalletScreen({navigation})  {
     <View style={ styles.layout }>
 
 
-      <View style={{width: '100%', alignItems: 'flex-end'}}>
+      <View style={{width: '100%', alignItems: 'flex-end', marginBottom: -50}}>
         <IconButton name="ri-line-chart-fill" size="20" navTarget="Charts" />
         {/*<ChartButton />*/}
       </View>
@@ -150,9 +151,30 @@ function WalletScreen({navigation})  {
 
 
       <View style={ styles.tokenViewContainer }>        
-        <TokenView image="bscToken.png" name="Binance" symbol="BSC" tokenBalance="6366" />
-        <TokenView image="ethToken.png" name="Ethereum" symbol="ETH" tokenBalance="2.34" />
-        <TokenView image="daoToken.png" name="Bankless DAO" symbol="BANK" tokenBalance="35000" />
+
+        <View style={ styles.eachCol }>
+        <FlatList
+            data={[
+              {key: 'BSC', name: 'Binance', balance:'6366', img: 'bscToken.png' },
+              {key: 'ETH', name: 'Ethereum', balance:'2.34', img: 'ethToken.png' },
+              {key: 'BANK', name: 'BanklessDAO', balance:'35000', img: 'daoToken.png' },
+            ]}
+            renderItem={({item}) => {
+              // tokenView for each token in wallet is displayed here,
+              return (
+                <TouchableOpacity onPress={ () => {
+                  console.log(item.key);
+                  navigation.navigate('Token', {
+                    img: item.img,
+                  })
+                } }>
+                  <TokenView image={item.img} name={item.name} symbol={item.key} tokenBalance={item.balance} />
+                </TouchableOpacity>
+              )}
+            }
+          />
+        </View>
+
       </View>
       
       {/*<View style={ styles.hr } />
@@ -214,19 +236,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'flex-end',
     color: colors.BANK_BLACK,
+    fontFamily: 'SpaceGroteskBold'
   },
   subBalance: {
     fontSize: 14,
     alignSelf: 'flex-end',
     color: colors.BANK_ASHL,
+    fontFamily: 'SpaceGroteskLight'
   },
   mainToken: {
     fontSize: 16,
     color: colors.BANK_BLACK,
+    fontFamily: 'SpaceGroteskBold'
   },
   subToken: {
     fontSize: 14,
     color: colors.BANK_ASHL,
+    fontFamily: 'SpaceGroteskLight'
   },
   mainTokenBal: {
     fontSize: 18,
