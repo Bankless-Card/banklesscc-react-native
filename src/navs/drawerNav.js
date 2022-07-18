@@ -26,6 +26,8 @@ import SavedAddressScreen from '../pages/savedAddressScreen';
 import AboutUsScreen from '../pages/aboutScreen';
 import HelpScreen from '../pages/helpScreen';
 
+import BioScreen from '../pages/bioScreen';
+
 import NewLoginScreen from '../pages/newLoginScreen';
 
 import Logout from '../pages/logoutScreen';
@@ -128,6 +130,8 @@ function MyDrawer() {
           <Drawer.Screen name="About Us" component={AboutUsScreen} />
           <Drawer.Screen name="Help" component={HelpScreen} />
           <Drawer.Screen name="Logout" component={Logout} />
+          {/*<Drawer.Screen name="Login" component={NewLoginScreen} />*/}
+          <Drawer.Screen name="Biometric Auth" component={BioScreen} />
 
         </>
 

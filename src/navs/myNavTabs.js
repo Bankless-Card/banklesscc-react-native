@@ -33,10 +33,10 @@ function MyTabsHome( route,navigation ) {
       screenOptions={({ route }) => ({
         headerShown: false,
         // tabBarActiveBackgroundColor: 'black',
-        tabBarStyle: { position: 'absolute' },
-        tabBarBackground: () => (
-          <View style={{ backgroundColor: 'blue' }} />
-        ),
+        tabBarStyle: { 
+          position: 'absolute', 
+          backgroundColor: colors.BANK_WHITE, 
+        },
         tabBarActiveTintColor: colors.BANK_RED,
         tabBarInactiveTintColor: colors.BANK_ASH,
         tabBarIcon: ({ focused, color, size }) => {
@@ -59,6 +59,7 @@ function MyTabsHome( route,navigation ) {
           // You can return any component that you like here!
           return <Icon name={ iconSrc } color={ color } />;
         },
+        
 
         
       })}
