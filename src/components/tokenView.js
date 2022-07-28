@@ -12,14 +12,14 @@ function niceFormat(num) {
 function TokenView(props) {
 
   const [privacyMode, setPrivacyMode] = React.useState(0);
-  console.log(privacyMode);
+  // console.log(privacyMode);
 
   let thisImage = props.image;
   let img = 'https://tranmer.ca/bcard/img/'+props.image;
 
-  let ethConvert = 1190;
-  let bscConvert = 235.82;
-  let bankConvert = 0.016;
+  let ethConvert = 1750;
+  let bscConvert = 278.54;
+  let bankConvert = 0.023;
 
   let thisConvert = bankConvert;
 
@@ -37,6 +37,8 @@ function TokenView(props) {
   tokenOutput = tokenOutput.replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
   // fix with require vairable for props.image of same name
+
+  console.log("Need functional conversions here")
 
   return (
     <View style={ styles.tokenContainer }>

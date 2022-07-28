@@ -5,7 +5,7 @@ const BANK_ASH = '#4F4F4F';
 
 function NewsPost(props) {
 
-  console.log(props);
+  // console.log(props);
   var storyIcon = require('../assets/img/newsSample1.png');
   if(props.image === "newsSample2") {
     // change filename for icon

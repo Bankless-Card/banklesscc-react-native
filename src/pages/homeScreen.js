@@ -176,7 +176,7 @@ const HomeScreen = ({ route, navigation }) => {
                 // tokenView for each token in wallet is displayed here,
                 return (
                   <TouchableOpacity onPress={ () => {
-                    console.log(item.key);
+                    // console.log(item.key);
                     navigation.navigate('News', {
                       itemId: item.key,
                       otherParam: item.title,

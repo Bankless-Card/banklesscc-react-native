@@ -21,14 +21,15 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSFaceIDUsageDescription" : "To authenticate users on device",
-        "UIAppFonts" : {
+        "NSFaceIDUsageDescription": "To authenticate users on device",
+        "UIAppFonts": {
           "SpaceGrotesk-Bold": "SpaceGrotesk-Bold.ttf",
           "SpaceGrotesk-Light": "SpaceGrotesk-Light.ttf",
           "SpaceGrotesk-Regular": "SpaceGrotesk-Regular.ttf",
-          "Inter-Black": "Inter-Black.ttf",
+          "Inter-Black": "Inter-Black.ttf"
         }
       },
+      "bundleIdentifier": "xyz.banklesscard.app"
     },
     "android": {
       "adaptiveIcon": {

@@ -1,108 +1,90 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 
-//navigation
+// navigation
 import { useNavigation } from '@react-navigation/native';
+
+// storage for settings data
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import {styles} from './homeScreen';
 import Icon from 'react-native-remix-icon';  
 
-import {colors} from '../components/constants';
+import {colors, ICONS, getImageFromSymbol} from '../components/constants';
+import {TokenList} from '../components/dataFile';
 import IconButton from '../components/iconButton';
-
-// function TokenView(props) {
-
-//   const [privacyMode, setPrivacyMode] = React.useState(0);
-//   // console.log(privacyMode);
-
-//   // console.log(props.image);
-//   let thisImage = props.image;
-//   let img = 'https://tranmer.ca/bcard/img/'+props.image;
-//   // console.log(img);
-
-//   let ethConvert = 1190;
-//   let bscConvert = 235.82;
-//   let bankConvert = 0.016;
-
-//   let thisConvert = bankConvert;
-
-//   if(props.symbol === "ETH") {
-//     thisConvert = ethConvert;
-//   } else if(props.symbol === "BSC") {
-//     thisConvert = bscConvert;
-//   } else {
-//     thisConvert = bankConvert;
-//   }
-
-//   let convert = props.tokenBalance * thisConvert;
-//   // console.log(convert);
-
-//   // convert = convert.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-//   convert = niceFormat(convert);
-//   // console.log(props.tokenBalance);
-//   let tokenOutput = props.tokenBalance;
-//   tokenOutput = tokenOutput.replace(/\d(?=(\d{3})+\.)/g, '$&,');
-
-//   // fix with require vairable for props.image of same name
-
-//   return (
-//     <View style={ styles.tokenContainer }>
-//       <View style={{ flexDirection: 'row' }}>
-//         <Image 
-//           style={{ width: 40, height: 40, marginRight: 10 }}
-//           // source={{ img }}
-//           // source={require('../assets/img/bLogo.png')}
-//           source={{
-//             uri: img,
-//           }}
-//         />
-//         <View style={{ justifyContent:'space-evenly' }}>
-//           <Text style={ styles.mainToken }>{props.name ? props.name : "Missing Name"}</Text>
-//           <Text style={ styles.subToken }>{props.symbol ? props.symbol : "Missing Symbol"}</Text>
-//         </View>
-//       </View>
-
-//       <View style={{ justifyContent:'space-evenly' }}>
-//         <Text style={ styles.mainTokenBal }>{props.tokenBalance ? tokenOutput : "Cannot get balance"}</Text>
-//         <Text style={ styles.subTokenBal }>${ convert }</Text>
-//       </View>
-//     </View>
-
-//   );
-// }
 
 import TopTab from '../navs/topTabNav';
 import TokenView from '../components/tokenView';
-
-// function niceFormat(num) {
-//   return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-// }
-
-// function ChartButton() {
-//   return (
-//     <View style={{ backgroundColor: colors.BANK_WHITE, borderRadius: 5, padding: 5}}>
-//         <Icon name="ri-line-chart-fill" size="20" />
-//       </View>
-//   );
-// }
 
 function WalletScreen({navigation})  {
 
   const [count, setCount] = React.useState(0);
   const [mainBalance, setMainBalance] = React.useState(0);
+  const [myCurrency, setMyCurrency] = React.useState(0);    // for principal wallet display
+  const [myDAO, setMyDAO] = React.useState(null);    // for principal wallet display
 
-  // setMainBalance("4123.23");
+  // data retrieval function (move it)
+  const getData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key)
+      console.log(key);
+      console.log(value);   // value here is @currency key
+      // setMyCurrency(value);
+
+      // maybe replace this with a lookup for image based on key?
+      if(key==='@currency'){
+        setMyCurrency(value)    // not this
+        
+      } else if(key === '@dao') {
+        setMyDAO(value)
+      }
+
+      if(value !== null) {
+        console.log(value);
+        // setUserData(value)
+      }
+    } catch(e) {
+      // error reading value
+    }
+
+    console.log("Data Retrieved");
+  }
+
+  const getCurImg = async (key) => {
+    try {
+      console.log(key);
+
+      // maybe replace this with a lookup for image based on key?
+      if(key==='@currency'){
+        setMyCurrency(value)    // not this
+        
+      } else if(key === '@dao') {
+        setMyDAO(value)
+      }
+
+    } catch(e) {
+      // error reading value
+    }
+
+    console.log("Data Retrieved");
+  }
+
+  // on page load, use retrieval functions to gather the currency and dao data
+  useEffect(() => {
+    getData('@currency');
+    getData('@dao');
+  }, []);
 
   if(!mainBalance) {
       const combinedBal = 560 + 1501230.12 + 2784.60;
       const setBal = setMainBalance(combinedBal);   // set default main balance for view
   }
-  let bankConvert = 0.016
+  let bankConvert = 0.023
   let subBal = mainBalance / bankConvert;   // convvert usd to BANK
   subBal = subBal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');   // nice format
   let mainBal = mainBalance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');   // nice format
-  //let mainBal = niceFormat(mainBalance);
 
   React.useLayoutEffect(() => {
     // navigation.setOptions({
@@ -116,34 +98,37 @@ function WalletScreen({navigation})  {
     // });
   }, [navigation]);
 
+  // get myCurrency image source
+  let myCurrencySrc = getImageFromSymbol(myCurrency);
+  let myDAOSrc = getImageFromSymbol(myDAO);
+
   return (
     <View style={ styles.layout }>
 
 
       <View style={{width: '100%', alignItems: 'flex-end', marginBottom: -50}}>
         <IconButton name="ri-line-chart-fill" size="20" navTarget="Charts" />
-        {/*<ChartButton />*/}
       </View>
       <TopTab tab1="WalletScreen" label1="Wallet" tab2="Vault" label2="Vault" />
 
       <View style={ styles.balanceContainer }>
         <TouchableOpacity
-          style={{ position: 'relative', marginBottom: -45  }}
+          style={ styles.selectionLink }
           onPress={() => {navigation.navigate('DAOcurrency')}}
         >
           <Image 
-            style={{ width: 50, height: 50 }}
-            source={require('../assets/img/usd-badge.png')}
+            style={styles.tokenImage}
+            source={myCurrencySrc}
           />
           <Image 
-            style={{ width: 50, height: 50, top: -35, left: 15 }}
-            source={require('../assets/img/bLogo.png')}
+            style={[styles.tokenImage, styles.daoToken]}
+            source={myDAOSrc}
           />
         </TouchableOpacity>
 
         <View style={{  }}>
-          <Text style={ styles.mainBalance }>$USD {mainBal}</Text>
-          <Text style={ styles.subBalance }> {subBal} BANK</Text>
+          <Text style={ styles.mainBalance }>${myCurrency} {mainBal}</Text>
+          <Text style={ styles.subBalance }> {subBal} {myDAO}</Text>
         </View>
       </View>
 
@@ -154,11 +139,7 @@ function WalletScreen({navigation})  {
 
         <View style={ styles.eachCol }>
         <FlatList
-            data={[
-              {key: 'BSC', name: 'Binance', balance:'6366', img: 'bscToken.png' },
-              {key: 'ETH', name: 'Ethereum', balance:'2.34', img: 'ethToken.png' },
-              {key: 'BANK', name: 'BanklessDAO', balance:'35000', img: 'daoToken.png' },
-            ]}
+            data={TokenList}
             renderItem={({item}) => {
               // tokenView for each token in wallet is displayed here,
               return (
@@ -202,6 +183,10 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
   },
+  selectionLink: {
+    position: 'relative', 
+    marginBottom: -45
+  },
   balanceContainer: {
     width: '95%',
     backgroundColor: 'white',
@@ -210,6 +195,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tokenImage: {
+    width: 50, 
+    height: 50 
+  },
+  daoToken: {
+    top: -35, 
+    left: 15 
   },
   tokenViewContainer: {
     flex:1, 
@@ -227,9 +220,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
-  },
-  tokenImage: {
-
   },
   mainBalance: {
     fontSize: 24,
