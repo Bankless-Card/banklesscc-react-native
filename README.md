@@ -1,6 +1,11 @@
 # banklesscc-react-native
 React Native &amp; Expo development build for Bankless Card
 
+// RUN LOCALLY
+$ git clone https://github.com/Bankless-Card/banklesscc-react-native.git
+$ npm install -g expo-cli        // if needed
+$ expo start
+
 MOBILE APP STACK
 expo init my-mobile-app
 

@@ -33,6 +33,8 @@ import NewLoginScreen from '../pages/newLoginScreen';
 import Logout from '../pages/logoutScreen';
 import Forgot from '../components/forgotButton';
 
+import SendFeedback from '../pages/sendEmailScreen';
+
 
 function SplashScreen() {
   return (
@@ -132,6 +134,7 @@ function MyDrawer() {
           <Drawer.Screen name="Logout" component={Logout} />
           {/*<Drawer.Screen name="Login" component={NewLoginScreen} />*/}
           <Drawer.Screen name="Biometric Auth" component={BioScreen} />
+          <Drawer.Screen name="Feedback" component={SendFeedback} />
 
         </>
 
