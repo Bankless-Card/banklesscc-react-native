@@ -32,6 +32,21 @@ const DAOcurrency = ({ navigation, route }) => {
 	const [currency, setCurrency] = React.useState('');	// need to get state
 	const [DAO, setDAO] = React.useState('');			// state variables for live display on this page
 
+	// for navigation headers
+	React.useLayoutEffect(() => {
+	    navigation.setOptions({
+	    	headerLeft: () => (
+
+	        <Button onPress={() => navigation.navigate("Home")} title="home" />
+	      ),
+	      headerRight: () => (
+
+	        <Button onPress={() => navigation.navigate("WalletScreen")} title="wallet" />
+	      ),
+	      
+	    });
+	}, [navigation]);
+
 	// storage and retrieval functions for data
 	const storeData = async (key,value) => {
 	  try {
@@ -158,6 +173,13 @@ const DAOcurrency = ({ navigation, route }) => {
 			        renderItem={renderDAOItem}
 			        extraData={DAO}
 			      />
+		    </View>
+
+		    <View>
+		    	<Button 
+        			onPress={() => navigation.navigate("SettingsScreen")} title="go settings"
+      			/>
+      			<Button onPress= {() => navigation.goBack() } title="back" />
 		    </View>
 
 		</View>

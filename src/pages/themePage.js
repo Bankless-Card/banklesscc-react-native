@@ -4,16 +4,21 @@ import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 
 import { auth } from '../../firebase';
 
-import SettingsComponent from '../components/settingsComponent';
-import ThemePage from '../pages/themePage';
+import { useNavigation } from '@react-navigation/native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-function SettingsScreen({ navigation }) {
+
+// import SettingsComponent from '../components/settingsComponent';
+// import ThemePage from '../pages/themePage';
+
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+function ThemePage() {
   const [email, setEmail] = React.useState(null);
+  const [settingsOptions, setSettingsOptions] = React.useState("");
 
-
+  console.log(settingsOptions);
 
   const settingsOptionsDef = [
     {
@@ -25,16 +30,7 @@ function SettingsScreen({ navigation }) {
           params: { settingsOptions: settingsOptions },
         })})
     },
-    { title: "Themes", 
-      subTitle: null, 
-      icon: "ri-contrast-2-line", 
-      onPress: ( () => {
-        navigation.navigate('ThemePage', { 
-          // screen: 'ThemePage',
-          // params: { settingsOptions: settingsOptions } 
-        })
-      })
-    },
+    {title: "Themes", subTitle: null, icon: "ri-notification-line", onPress: () => {navigation.navigate("ThemePage")}},
     {title: "Notifications", subTitle: null, icon: "ri-notification-line", onPress: () => {navigation.navigate("Notifications")}},
     {title: "Current account", subTitle: email, onPress: () => {navigation.navigate("Logout")}},
     {title: "Contact to display", subTitle: "All Contacts", onPress: () => {}},
@@ -46,9 +42,6 @@ function SettingsScreen({ navigation }) {
     {title: "About", subTitle: null, onPress: () => {}},
   ];
 
-  // console.log(settingsOptions);
-
-  const [settingsOptions, setSettingsOptions] = React.useState("");
 
   // the getSettings async function
   const getSettings = async () => {
@@ -74,15 +67,14 @@ function SettingsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-
-        <Button onPress={() => navigation.navigate("BanklessCC", {screen: 'HomeScreen'})} title="home" />
+        <Button onPress={() => navigation.navigate("BanklessCC")} title="home" />
       ),
     });
   }, [navigation]);
 
   // this should be a stack view to contain each option page with auto back button, etc.
 
-  const Stack = createNativeStackNavigator();
+  // const Stack = createNativeStackNavigator();
   /*
   <Stack.Navigator 
       initialRouteName="Settings"
@@ -98,32 +90,26 @@ function SettingsScreen({ navigation }) {
   <View style={ styles.layout }>
       <SettingsComponent settingsOptions={settingsOptions} navigation={navigation} />
     </View>
+    const 
 
   */
 
+  const navigation = useNavigation();
+
   return (
     
-    <Stack.Navigator 
-      initialRouteName="SettingsScreen"
-      screenOptions={{
-          headerShown: false,
-      }}  >
-      <Stack.Screen name="SettingsScreen">
-        {(props) =>  <SettingsComponent {...props} settingsOptions={settingsOptionsDef} navigation={navigation} />}
-      </Stack.Screen>
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="ThemePage">
-          {(props) =>  <ThemePage {...props} settingsOptions={settingsOptionsDef} />}
-        </Stack.Screen>
-      </Stack.Group>
-    { /* more stack screens here */ }
-
-  </Stack.Navigator>
+    <View>
+      <Text>Hello World</Text>
+      <Button 
+        onPress={() => navigation.navigate("SettingsScreen")} title="go settings"
+      />
+      <Button onPress= {() => navigation.goBack() } title="back" />
+    </View>
   );
 
 }
 
-export default SettingsScreen;
+export default ThemePage;
 
 const styles = StyleSheet.create({
   layout: {

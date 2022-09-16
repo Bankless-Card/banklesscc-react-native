@@ -30,10 +30,12 @@ function WalletStack() {
       />
       <StackHome.Screen name="Vault" component={VaultScreen} 
         options={{ headerShown: false }} />
-      <StackHome.Screen name="DAOcurrency" component={CurrencyDAOScreen} />
-      <StackHome.Screen name="Charts" component={ChartScreen} />
-      <StackHome.Screen name="Token" component={TokenScreen}
-        options={{ headerTitle: (props) => <LogoTitle {...props}/> }} />
+        <StackHome.Group screenOptions={{ presentation: 'modal' }}>
+          <StackHome.Screen name="DAOcurrency" component={CurrencyDAOScreen} />
+          <StackHome.Screen name="Charts" component={ChartScreen} />
+          <StackHome.Screen name="Token" component={TokenScreen}
+            options={{ headerTitle: (props) => <LogoTitle {...props}/> }} />
+        </StackHome.Group>
     </StackHome.Navigator>
   )
 }
